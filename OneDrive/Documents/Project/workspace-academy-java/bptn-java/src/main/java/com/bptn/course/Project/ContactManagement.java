@@ -2,12 +2,9 @@ package com.bptn.course.Project;
 
 import java.util.Scanner;
 
-import com.bptn.course.Project.CRUDManager;
-import com.bptn.course.Project.Contact;
-
 public class ContactManagement {
     public static void main(String[] args) {
-    	CRUDManager crudManager = new CRUDManager();
+    	ContactManager manager = new ContactManager();
 
 
         Scanner scanner = new Scanner(System.in);
@@ -40,12 +37,12 @@ public class ContactManagement {
                     
                     // Create a new contact and add it to the list
                     Contact contact = new Contact(name, phoneNumber, email, category);
-                    crudManager.addContact(contact);
+                    manager.addContact(contact);
                     
                     System.out.println("Contact added successfully!");
                     break;
                 case 2:
-                    crudManager.listContact();
+                	manager.listContact();
                     break;
                 case 3:
                     // Update contact logic

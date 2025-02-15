@@ -1,16 +1,12 @@
 package com.bptn.course.Project;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-import com.bptn.course.Project.Contact;
 
-public class CRUDManager {
+public class ContactManager {
     private List<Contact> contacts;
     Scanner scanner = new Scanner(System.in);
-    public CRUDManager() {
+    public ContactManager() {
         contacts = new ArrayList<>();
     }
 
@@ -52,6 +48,19 @@ public class CRUDManager {
     		}
     	}
     	System.out.println("contact not found");
+    }
+    
+    public void search(String criteria) {
+        boolean found = false;
+        for (Contact contact : contacts) {
+            if (contact.getName().toLowerCase().contains(criteria.toLowerCase()) ||
+            	contact.getEmail().toLowerCase().contains(criteria.toLowerCase()) ||
+            	contact.getPhoneNumber().contains(criteria)) {
+                System.out.println(contact);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("No matching contacts found.");
     }
 }
 
