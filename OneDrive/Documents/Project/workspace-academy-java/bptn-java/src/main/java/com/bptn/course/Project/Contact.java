@@ -1,17 +1,21 @@
 package com.bptn.course.Project;
 
+import java.util.ArrayList;
+import java.util.List;
+
+//Represents a single contact with name, email, a 10-digit phone number, and categories.
 public class Contact {
     private String name;
-    private String phoneNumber;
+    private long phoneNumber;
     private String email;
-    private String category;
+    private List<String> categories;
 
     // Creating a Contact Constructor to initialize the fields
-    public Contact(String name, String phoneNumber, String email, String category) {
+    public Contact(String name, long phoneNumber, String email, List<String> categories) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.category = category;
+        this.categories = new ArrayList<>(categories);
     }
 
     // Getters and Setters
@@ -22,10 +26,10 @@ public class Contact {
     	this.name = name; 
     	}
 
-    public String getPhoneNumber() { 
+    public long getPhoneNumber() { 
     	return phoneNumber; 
     	}
-    public void setPhoneNumber(String phoneNumber) { 
+    public void setPhoneNumber(long phoneNumber) { 
     	this.phoneNumber = phoneNumber; 
     	}
 
@@ -36,11 +40,17 @@ public class Contact {
     	this.email = email; 
     	}
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-
+    public List<String> getCategories() {
+    	return new ArrayList<>(categories);
+    }
+    
+    public void setCategories(List<String> categories) {
+    	this.categories = new ArrayList<>(categories);   // Return a copy to protect the list
+    }
+    
+ // Returns a string representation of the contact.
     @Override
     public String toString() {
-        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Category: " + category;
+        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Category: " + categories;
     }
 }
