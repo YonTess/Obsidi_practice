@@ -2,6 +2,7 @@ package com.bptn.course.Project;
 
 import java.util.Comparator;
 
+//Comparator class for sorting contacts by name
 public class ContactNameComparator implements Comparator<Contact> {
     @Override
     public int compare(Contact c1, Contact c2) {

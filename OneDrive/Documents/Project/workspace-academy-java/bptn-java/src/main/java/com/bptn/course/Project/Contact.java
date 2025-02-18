@@ -39,16 +39,17 @@ public class Contact {
     public void setEmail(String email) { 
     	this.email = email; 
     	}
-
+    // Returns a copy of the categories list to prevent modification of the original list
     public List<String> getCategories() {
     	return new ArrayList<>(categories);
     }
+    
     
     public void setCategories(List<String> categories) {
     	this.categories = new ArrayList<>(categories);   // Return a copy to protect the list
     }
     
- // Returns a string representation of the contact.
+    // Overrides toString() to return a formatted contact representation
     @Override
     public String toString() {
         return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Category: " + categories;
