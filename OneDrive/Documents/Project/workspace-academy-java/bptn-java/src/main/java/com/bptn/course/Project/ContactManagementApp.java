@@ -1,9 +1,13 @@
 package com.bptn.course.Project;
 
 import java.util.*;
+import com.diogonunes.jcolor.Ansi; // Importing Ansi for colored console output
+import com.diogonunes.jcolor.Attribute; // Importing Attribute for text attributes
+import static com.diogonunes.jcolor.Ansi.*; // Importing static members of Ansi for easier access
+import static com.diogonunes.jcolor.Attribute.*; // Importing static members of Attribute for easier
 
 //ContactManagement class provides a console-based contact management system.
-public class ContactManagement {
+public class ContactManagementApp {
 	
 	// Prompts the user to choose categories for a contact.
 	public static List<String> chooseCategories(Scanner scanner) {
@@ -11,20 +15,18 @@ public class ContactManagement {
 		
 		// Display predefined category options to the user
 		
-		System.out.println("Select categories (separate multiple choices with commas):");
+	 System.out.println("Select categories (separate multiple choices with commas):");
      System.out.println("1. Client");
      System.out.println("2. Vendor");
      System.out.println("3. Family");
      System.out.println("4. Friend");
      System.out.println("5. Favorite");
-     System.out.print("Your choice(s): ");
      
-     String input = scanner.nextLine();
+     String input = ContactHelper.promptInput(scanner,"Your choice(s): ");
      
   // Validate user input
      while(!validateInput(input)) {
-     	System.out.println("Enter a valid choice (1-5)");
-     	input = scanner.nextLine();
+     	input = ContactHelper.promptInput(scanner,"Enter a valid choice (1-5)");
      }
      
   // Split input into tokens and map to category names
@@ -72,8 +74,6 @@ public class ContactManagement {
 
 	// Checks if a given string represents a valid integer.
 	private static boolean isValidInt(String choiceString) {
-
-		
 		try {
 			int choice = Integer.parseInt(choiceString);
 		} catch (Exception e) {
@@ -94,26 +94,13 @@ public class ContactManagement {
      
   // Do-while loop to keep displaying the menu until the user selects exit        
      do {
-     	System.out.println("\nPlease choose a feature:");
-         System.out.println("1. Add Contact");
-         System.out.println("2. List Contacts");
-         System.out.println("3. Update Contact");
-         System.out.println("4. Delete Contact");
-         System.out.println("5. Search Contacts");
-         System.out.println("6. Sort Contacts by Name");
-         System.out.println("7. Group Contacts by Category");
-         System.out.println("8. Export Contacts to CSV");
-         System.out.println("9. Import Contacts from CSV");
-
-         System.out.println("0. Exit");
-         System.out.print("Enter your choice: ");
+     	printMenu();
      	
-         String choiceString = scanner.nextLine();    // Consume the newline character
+         String choiceString = ContactHelper.promptInput(scanner,"Enter your choice: ");    // Consume the newline character
          
       // Validate that input is a valid integer choice
          while (!isValidInt(choiceString)) {
-             System.out.println("Invalid choice format! Please enter a valid an integer choice:");
-             choiceString = scanner.nextLine();
+             choiceString = ContactHelper.promptInput(scanner,"Invalid choice format! Please enter a valid an integer choice:");
          }
          
       // Convert the validated string input to an integer
@@ -140,8 +127,7 @@ public class ContactManagement {
              	
              case 3:
              	// Update an existing contact.
-             	System.out.print("Enter the name of the contact to update: ");
-                 String oldName = scanner.nextLine();
+				    String oldName = ContactHelper.promptInput(scanner, "Enter the name of the contact to update: ");
                  Contact contact = manager.getContactByName(oldName);
                  
               // Check if the contact exists before updating
@@ -161,14 +147,12 @@ public class ContactManagement {
                  break;
              case 4:
                  // Delete a contact.
-                 System.out.print("Enter the name of the contact to delete: ");
-                 String delName = scanner.nextLine();
+                 String delName = ContactHelper.promptInput(scanner, "Enter the name of the contact to delete: ");
                  manager.deleteContact(delName);
                  break;
              case 5:
              	// Search for contacts based on user input
-                 System.out.print("Enter search criteria: ");
-                 String criteria = scanner.nextLine();
+                 String criteria = ContactHelper.promptInput(scanner, "Enter search criteria: ");
                  manager.search(criteria);
                  break;
              case 6:
@@ -181,14 +165,12 @@ public class ContactManagement {
             		break;
             case 8:
                 // Export contacts to a CSV file.
-                System.out.print("Enter export file path: ");
-                String exportPath = scanner.nextLine();
+                String exportPath = ContactHelper.promptInput(scanner,"Enter export file path: ");
                 manager.exportCSV(exportPath);
                 break;
             case 9:
                 // Import contacts from a CSV file.
-                System.out.print("Enter import file path: ");
-                String importPath = scanner.nextLine();
+                String importPath = ContactHelper.promptInput(scanner,"Enter import file path: ");
                 manager.importCSV(importPath);
                 break;
              case 0:
@@ -205,6 +187,23 @@ public class ContactManagement {
      scanner.close();
          
  }
+ 
+ // Refactored
+	private static void printMenu() {
+		System.out.println(colorize("\nWELCOME TO CONTACT APP", GREEN_TEXT(), BLUE_BACK(), BOLD()));
+		System.out.println(colorize("\nPlease choose a feature:\n", YELLOW_TEXT(), BOLD()));
+		System.out.println(colorize("1. Add Contact", BLUE_TEXT(), BOLD()));
+		System.out.println(colorize("2. List Contacts", GREEN_TEXT(), BOLD()));
+		System.out.println(colorize("3. Update Contact", MAGENTA_TEXT(), BOLD()));
+		System.out.println(colorize("4. Delete Contact", CYAN_TEXT(), BOLD()));
+		System.out.println(colorize("5. Search Contacts", BRIGHT_RED_TEXT(), BOLD()));
+		System.out.println(colorize("6. Sort Contacts by Name", BRIGHT_GREEN_TEXT(), BOLD()));
+		System.out.println(colorize("7. Group Contacts by Category", BRIGHT_CYAN_TEXT(), BOLD()));
+		System.out.println(colorize("8. Export Contacts to CSV", BRIGHT_BLUE_TEXT(), BOLD()));
+		System.out.println(colorize("9. Import Contacts from CSV", BRIGHT_YELLOW_TEXT(), BOLD()));
+
+		System.out.println(colorize("0. Exit", RED_TEXT(), BOLD()));
+	}
 
 
 }

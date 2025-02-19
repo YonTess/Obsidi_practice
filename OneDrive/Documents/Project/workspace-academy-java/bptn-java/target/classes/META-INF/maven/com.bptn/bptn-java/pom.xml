@@ -26,6 +26,11 @@
       <version>3.8.1</version>
     </dependency>
     <dependency>
+      <groupId>com.diogonunes</groupId>
+      <artifactId>JColor</artifactId>
+      <version>5.0.0</version>
+    </dependency>
+    <dependency>
     	<groupId>com.bptn</groupId>
     	<artifactId>academy-java</artifactId>
     	<version>0.0.1-SNAPSHOT</version>

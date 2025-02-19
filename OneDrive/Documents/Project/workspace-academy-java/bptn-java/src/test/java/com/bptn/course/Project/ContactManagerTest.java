@@ -11,6 +11,7 @@ public class ContactManagerTest {
 	
 	public ContactManager manager = new ContactManager();
 	
+	
 	@Test
 	
 	void testAddContact_IfValidPhoneNumber() {
@@ -26,6 +27,51 @@ public class ContactManagerTest {
 		
 		assertEquals(0, manager.getContactSize());
 		
+	}
+	
+	@Test
+    void testUpdateExistingContact() {
+		//Setup
+		manager.addContact("Yonatan", 1234567890, "yonatan@example.com", Arrays.asList("Client"));
+		
+        manager.updateContact("Yonatan", "Simon", 2345678901L, "simon@mail.com", Arrays.asList("Friend"));
+
+        Contact updatedContact = manager.getContactByName("Simon");
+		//Tests
+        assertEquals("Simon", updatedContact.getName());
+        assertEquals(2345678901L, updatedContact.getPhoneNumber());
+        assertEquals("simon@mail.com", updatedContact.getEmail());
+        assertEquals(Arrays.asList("Friend"), updatedContact.getCategories());
+		//Tear down
+        manager.deleteContact("Simon");
+    }
+	
+	@Test
+	void testUpdateContactWithInvalidPhoneNumber() {
+		//Setup
+		manager.addContact("Yonatan", 1234567890, "yonatan@example.com", Arrays.asList("Client"));
+		
+		manager.updateContact("Yonatan", "Simon", 12345, "simon@mail.com", Arrays.asList("Friend"));
+		
+		Contact updatedContact = manager.getContactByName("Yonatan");
+		//Tests
+		assertEquals("Yonatan", updatedContact.getName());
+		assertEquals(1234567890, updatedContact.getPhoneNumber());
+		//Teardown
+		manager.deleteContact("Yonatan");
+	}
+	
+	@Test
+	void testUpdateContactWithNonExistingContact() {
+		
+		//Setup
+		assertEquals(0,manager.getContactSize());
+		
+		manager.updateContact("Yonatan", "Simon", 12345, "simon@mail.com", Arrays.asList("Friend"));
+
+		//Tests
+		assertEquals(0,manager.getContactSize());;
+		//Teardown
 	}
 
 }

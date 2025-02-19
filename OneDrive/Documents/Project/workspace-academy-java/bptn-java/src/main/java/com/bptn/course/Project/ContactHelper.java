@@ -7,8 +7,8 @@ public class ContactHelper {
 	
 	// Prompts the user to enter a new email address for a given contact.
      public static String getNewEmail(Scanner scanner, Contact contact) {
-     System.out.print("Enter new Email ("+ contact.getEmail()+"): ");
-     String newEmail = scanner.nextLine();
+     
+     String newEmail = promptInput(scanner, "Enter new Email ("+ contact.getEmail()+"): ");
      
   // If the user does not enter a new email, retain the existing one.
      if (newEmail.isEmpty()) {
@@ -17,8 +17,8 @@ public class ContactHelper {
      
   // Validate email format
      while (!isValidEmail(newEmail)) {
-         System.out.println("Invalid email format. Please enter a valid email:");
-         newEmail = scanner.nextLine();
+        
+         newEmail = promptInput(scanner, "Invalid email format. Please enter a valid email:");
      }
      return newEmail;
  }
@@ -30,8 +30,8 @@ public class ContactHelper {
 
 		// Prompts the user to enter a new name for a contact.
  public static String getNewName(Scanner scanner, Contact contact) {
-     System.out.print("Enter new Name ("+ contact.getName()+"): ");
-     String newName = scanner.nextLine();
+
+     String newName = promptInput(scanner, "Enter new Name ("+ contact.getName()+"): ");
      
   // If no input is provided, keep the existing name
      if (newName.isEmpty()) {
@@ -42,26 +42,25 @@ public class ContactHelper {
 
  // Prompts the user to enter an email address and ensures it is in a valid format
  public static String getEmail(Scanner scanner) {
-     System.out.print("Enter Email: ");
-     String email = scanner.nextLine();
+     String email = promptInput(scanner,"Enter Email: ");
      
      // Validate email format
      while (!isValidEmail(email)) {
-         System.out.println("Invalid email format "+ email +". Please enter a valid email:");
-         email = scanner.nextLine();
+
+         email = promptInput(scanner, "Invalid email format "+ email +". Please enter a valid email:");
      }
      return email;
  }
 
  // Prompts the user to enter a phone number and ensures it consists of exactly 10 digits.
  public static long getPhone(Scanner scanner) {
-     System.out.print("Enter Phone (10 digits): ");
-     String phoneNumber = scanner.nextLine();
+
+     String phoneNumber = promptInput(scanner, "Enter Phone (10 digits): ");
      
   // Validate phone number format
      while (!isValidPhoneNumber(phoneNumber)) {
-         System.out.println("Invalid phone number format. Please enter a valid phone number:");
-         phoneNumber = scanner.nextLine();
+
+         phoneNumber = promptInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
      }
      long phone = Long.parseLong(phoneNumber);
      return phone;
@@ -81,8 +80,8 @@ public class ContactHelper {
  
  // Prompts the user to enter a new phone number for a given contact.
  public static long getPhone(Scanner scanner, Contact contact) {
-     System.out.print("Enter new Phone (10 digits)("+ contact.getPhoneNumber()+"): ");
-     String newPhoneNumber = scanner.nextLine();
+
+     String newPhoneNumber = promptInput(scanner, "Enter new Phone (10 digits)("+ contact.getPhoneNumber()+"): ");
      
      // If the user does not enter a new phone number, retain the existing one.
      if (newPhoneNumber.isEmpty()) {
@@ -91,10 +90,19 @@ public class ContactHelper {
      
      // Validate phone number format
      while (!isValidPhoneNumber(newPhoneNumber)) {
-         System.out.println("Invalid phone number format. Please enter a valid phone number:");
-         newPhoneNumber = scanner.nextLine();
+
+         newPhoneNumber = promptInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
      }
      long newPhone = Long.parseLong(newPhoneNumber);
      return newPhone;
  }
+
+	// Refactored
+	static String promptInput(Scanner scanner, String prompt) {
+		System.out.print(prompt);
+		String choice = scanner.nextLine();
+		return choice;
+	}
+	
+	
 }
