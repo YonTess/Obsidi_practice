@@ -1,10 +1,18 @@
 package com.bptn.course.Project;
 
+
 import java.util.Scanner;
+import com.diogonunes.jcolor.Ansi; // Importing Ansi for colored console output
+import com.diogonunes.jcolor.Attribute; // Importing Attribute for text attributes
+import static com.diogonunes.jcolor.Ansi.*; // Importing static members of Ansi for easier access
+import static com.diogonunes.jcolor.Attribute.*; // Importing static members of Attribute for easier
+import com.diogonunes.jcolor.AnsiFormat;
 
 //ContactHelper class provides utility methods for managing user input related to contact details.
 public class ContactHelper {
-	
+	static AnsiFormat fInfo = new AnsiFormat(CYAN_TEXT());
+    static AnsiFormat fError = new AnsiFormat(YELLOW_TEXT(), RED_BACK());
+    static AnsiFormat fSuccess = new AnsiFormat(GREEN_TEXT());
 	// Prompts the user to enter a new email address for a given contact.
      public static String getNewEmail(Scanner scanner, Contact contact) {
      
@@ -18,7 +26,7 @@ public class ContactHelper {
   // Validate email format
      while (!isValidEmail(newEmail)) {
         
-         newEmail = promptInput(scanner, "Invalid email format. Please enter a valid email:");
+         newEmail = promptOnErrorInput(scanner, "Invalid email format. Please enter a valid email:");
      }
      return newEmail;
  }
@@ -47,7 +55,7 @@ public class ContactHelper {
      // Validate email format
      while (!isValidEmail(email)) {
 
-         email = promptInput(scanner, "Invalid email format "+ email +". Please enter a valid email:");
+         email = promptOnErrorInput(scanner, "Invalid email format "+ email +". Please enter a valid email:");
      }
      return email;
  }
@@ -60,7 +68,7 @@ public class ContactHelper {
   // Validate phone number format
      while (!isValidPhoneNumber(phoneNumber)) {
 
-         phoneNumber = promptInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
+         phoneNumber = promptOnErrorInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
      }
      long phone = Long.parseLong(phoneNumber);
      return phone;
@@ -73,8 +81,7 @@ public class ContactHelper {
 
 	// Prompts the user to enter a name.
  public static String getName(Scanner scanner) {
-     System.out.print("Enter Name: ");
-     String name = scanner.nextLine();
+     String name = promptInput(scanner, "Enter Name: ");
      return name;
  }   
  
@@ -91,7 +98,7 @@ public class ContactHelper {
      // Validate phone number format
      while (!isValidPhoneNumber(newPhoneNumber)) {
 
-         newPhoneNumber = promptInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
+         newPhoneNumber = promptOnErrorInput(scanner, "Invalid phone number format. Please enter a valid phone number:");
      }
      long newPhone = Long.parseLong(newPhoneNumber);
      return newPhone;
@@ -99,7 +106,12 @@ public class ContactHelper {
 
 	// Refactored
 	static String promptInput(Scanner scanner, String prompt) {
-		System.out.print(prompt);
+		System.out.print(fInfo.format(prompt));
+		String choice = scanner.nextLine();
+		return choice;
+	}
+    static String promptOnErrorInput(Scanner scanner, String prompt) {
+		System.out.print(fError.format(prompt));
 		String choice = scanner.nextLine();
 		return choice;
 	}

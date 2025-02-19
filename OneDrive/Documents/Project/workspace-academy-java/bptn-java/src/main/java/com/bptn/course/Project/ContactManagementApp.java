@@ -26,11 +26,11 @@ public class ContactManagementApp {
 	     System.out.println("4. Friend");
 	     System.out.println("5. Favorite");
      
-     String input = ContactHelper.promptInput(scanner, fInfo.format("Your choice(s): "));
+     String input = ContactHelper.promptInput(scanner, "Your choice(s): ");
      
   // Validate user input
      while(!validateInput(input)) {
-     	input = ContactHelper.promptInput(scanner, fError.format("Enter a valid choice (1-5)"));
+     	input = ContactHelper.promptOnErrorInput(scanner, "Enter a valid choice (1-5)");
      }
      
   // Split input into tokens and map to category names
@@ -100,11 +100,11 @@ public class ContactManagementApp {
      do {
      	printMenu();
      	
-         String choiceString = ContactHelper.promptInput(scanner,fInfo.format("Enter your choice: "));    // Consume the newline character
+         String choiceString = ContactHelper.promptInput(scanner,"Enter your choice: ");    // Consume the newline character
          
       // Validate that input is a valid integer choice
          while (!isValidInt(choiceString)) {
-             choiceString = ContactHelper.promptInput(scanner, fError.format("Invalid choice format! Please enter a valid an integer choice:"));
+             choiceString = ContactHelper.promptOnErrorInput(scanner, "Invalid choice format! Please enter a valid an integer choice:" );
          }
          
       // Convert the validated string input to an integer
@@ -131,7 +131,7 @@ public class ContactManagementApp {
              	
              case 3:
              	// Update an existing contact.
-				    String oldName = ContactHelper.promptInput(scanner, fInfo.format("Enter the name of the contact to update: "));
+				    String oldName = ContactHelper.promptInput(scanner, "Enter the name of the contact to update: ");
                  Contact contact = manager.getContactByName(oldName);
                  
               // Check if the contact exists before updating
@@ -151,12 +151,12 @@ public class ContactManagementApp {
                  break;
              case 4:
                  // Delete a contact.
-                 String delName = ContactHelper.promptInput(scanner, fInfo.format("Enter the name of the contact to delete: "));
+                 String delName = ContactHelper.promptInput(scanner, "Enter the name of the contact to delete: ");
                  manager.deleteContact(delName);
                  break;
              case 5:
              	// Search for contacts based on user input
-                 String criteria = ContactHelper.promptInput(scanner, fInfo.format("Enter search criteria: "));
+                 String criteria = ContactHelper.promptInput(scanner,"Enter search criteria: ");
                  manager.search(criteria);
                  break;
              case 6:
@@ -169,12 +169,12 @@ public class ContactManagementApp {
             		break;
             case 8:
                 // Export contacts to a CSV file.
-                String exportPath = ContactHelper.promptInput(scanner, fInfo.format("Enter export file path: "));
+                String exportPath = ContactHelper.promptInput(scanner, "Enter export file path: ");
                 manager.exportCSV(exportPath);
                 break;
             case 9:
                 // Import contacts from a CSV file.
-                String importPath = ContactHelper.promptInput(scanner, fInfo.format("Enter import file path: "));
+                String importPath = ContactHelper.promptInput(scanner, "Enter import file path: ");
                 manager.importCSV(importPath);
                 break;
              case 0:
