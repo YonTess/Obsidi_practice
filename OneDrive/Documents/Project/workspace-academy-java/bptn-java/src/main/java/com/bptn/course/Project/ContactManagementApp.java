@@ -5,28 +5,32 @@ import com.diogonunes.jcolor.Ansi; // Importing Ansi for colored console output
 import com.diogonunes.jcolor.Attribute; // Importing Attribute for text attributes
 import static com.diogonunes.jcolor.Ansi.*; // Importing static members of Ansi for easier access
 import static com.diogonunes.jcolor.Attribute.*; // Importing static members of Attribute for easier
+import com.diogonunes.jcolor.AnsiFormat;
+
 
 //ContactManagement class provides a console-based contact management system.
 public class ContactManagementApp {
-	
+	static AnsiFormat fInfo = new AnsiFormat(CYAN_TEXT());
+    static AnsiFormat fError = new AnsiFormat(YELLOW_TEXT(), RED_BACK());
 	// Prompts the user to choose categories for a contact.
 	public static List<String> chooseCategories(Scanner scanner) {
 		List<String> categories = new ArrayList<>();
 		
+		
 		// Display predefined category options to the user
 		
-	 System.out.println("Select categories (separate multiple choices with commas):");
-     System.out.println("1. Client");
-     System.out.println("2. Vendor");
-     System.out.println("3. Family");
-     System.out.println("4. Friend");
-     System.out.println("5. Favorite");
+		 System.out.println(fInfo.format("Select categories (separate multiple choices with commas):"));
+	     System.out.println("1. Client");
+	     System.out.println("2. Vendor");
+	     System.out.println("3. Family");
+	     System.out.println("4. Friend");
+	     System.out.println("5. Favorite");
      
-     String input = ContactHelper.promptInput(scanner,"Your choice(s): ");
+     String input = ContactHelper.promptInput(scanner, fInfo.format("Your choice(s): "));
      
   // Validate user input
      while(!validateInput(input)) {
-     	input = ContactHelper.promptInput(scanner,"Enter a valid choice (1-5)");
+     	input = ContactHelper.promptInput(scanner, fError.format("Enter a valid choice (1-5)"));
      }
      
   // Split input into tokens and map to category names
@@ -52,7 +56,7 @@ public class ContactManagementApp {
              categories.add("Favorite");
              break;
          default:
-             System.out.println("Invalid category option: " + token);
+             System.out.println(fError.format("Invalid category option: ") + token);
      	}
      }
      
@@ -65,7 +69,7 @@ public class ContactManagementApp {
 		for (String token : tokens) {
      	token = token.trim();
      	if (!isValidInt(token)) {
-     		System.out.println("Invalid choice. Category will not be set.");
+     		System.out.println(fError.format("Invalid choice. Category will not be set."));
      		return false;  // input = scanner.nextLine();
      	}
      }
@@ -96,11 +100,11 @@ public class ContactManagementApp {
      do {
      	printMenu();
      	
-         String choiceString = ContactHelper.promptInput(scanner,"Enter your choice: ");    // Consume the newline character
+         String choiceString = ContactHelper.promptInput(scanner,fInfo.format("Enter your choice: "));    // Consume the newline character
          
       // Validate that input is a valid integer choice
          while (!isValidInt(choiceString)) {
-             choiceString = ContactHelper.promptInput(scanner,"Invalid choice format! Please enter a valid an integer choice:");
+             choiceString = ContactHelper.promptInput(scanner, fError.format("Invalid choice format! Please enter a valid an integer choice:"));
          }
          
       // Convert the validated string input to an integer
@@ -127,12 +131,12 @@ public class ContactManagementApp {
              	
              case 3:
              	// Update an existing contact.
-				    String oldName = ContactHelper.promptInput(scanner, "Enter the name of the contact to update: ");
+				    String oldName = ContactHelper.promptInput(scanner, fInfo.format("Enter the name of the contact to update: "));
                  Contact contact = manager.getContactByName(oldName);
                  
               // Check if the contact exists before updating
                  if (contact == null) {
-                     System.out.println("Contact not found.");
+                     System.out.println(fError.format("Contact not found."));
                      break;
                  }
                  
@@ -147,12 +151,12 @@ public class ContactManagementApp {
                  break;
              case 4:
                  // Delete a contact.
-                 String delName = ContactHelper.promptInput(scanner, "Enter the name of the contact to delete: ");
+                 String delName = ContactHelper.promptInput(scanner, fInfo.format("Enter the name of the contact to delete: "));
                  manager.deleteContact(delName);
                  break;
              case 5:
              	// Search for contacts based on user input
-                 String criteria = ContactHelper.promptInput(scanner, "Enter search criteria: ");
+                 String criteria = ContactHelper.promptInput(scanner, fInfo.format("Enter search criteria: "));
                  manager.search(criteria);
                  break;
              case 6:
@@ -165,21 +169,21 @@ public class ContactManagementApp {
             		break;
             case 8:
                 // Export contacts to a CSV file.
-                String exportPath = ContactHelper.promptInput(scanner,"Enter export file path: ");
+                String exportPath = ContactHelper.promptInput(scanner, fInfo.format("Enter export file path: "));
                 manager.exportCSV(exportPath);
                 break;
             case 9:
                 // Import contacts from a CSV file.
-                String importPath = ContactHelper.promptInput(scanner,"Enter import file path: ");
+                String importPath = ContactHelper.promptInput(scanner, fInfo.format("Enter import file path: "));
                 manager.importCSV(importPath);
                 break;
              case 0:
                  // Exit the application.
-                 System.out.println("Exiting...");
+                 System.out.println(colorize("Exiting...", RED_TEXT(), BOLD()));
                  break;
              default:
                  // Handle an invalid menu option.
-                 System.out.println("Invalid choice. Please try again.");
+                 System.out.println(fError.format("Invalid choice. Please try again."));
          }    
          
      } while (choice != 0); // Continue looping until the user chooses to exit.

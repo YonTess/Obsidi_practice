@@ -4,11 +4,18 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-
+import com.diogonunes.jcolor.Ansi; // Importing Ansi for colored console output
+import com.diogonunes.jcolor.Attribute; // Importing Attribute for text attributes
+import static com.diogonunes.jcolor.Ansi.*; // Importing static members of Ansi for easier access
+import static com.diogonunes.jcolor.Attribute.*; // Importing static members of Attribute for easier
+import com.diogonunes.jcolor.AnsiFormat;
 // ContactManager class manages contact operations such as adding, updating, deleting, searching, grouping, sorting, exporting and importing contacts.
 
 public class ContactManager {
-	
+	static AnsiFormat fInfo = new AnsiFormat(CYAN_TEXT());
+    static AnsiFormat fError = new AnsiFormat(YELLOW_TEXT(), RED_BACK());
+    static AnsiFormat fSucess = new AnsiFormat(GREEN_TEXT());
+    
 	// List to store contacts
     private List<Contact> contacts = new ArrayList<>();  // Stores contact list
     Scanner scanner = new Scanner(System.in);
@@ -22,18 +29,18 @@ public class ContactManager {
     public void addContact(String name, long phoneNumber, String email, List<String> categories) {
     	
     	if (!isValidPhone(phoneNumber)) {
-    		System.out.println("Error: Enter a 10 digit phone number");
+    		System.out.println(fError.format("Error: Enter a 10 digit phone number"));
     		return;
     	}
         contacts.add(new Contact(name, phoneNumber, email, categories));
-        System.out.println("Contact added successfully!");
+        System.out.println(fSucess.format("Contact added successfully!"));
     }
     
     // Lists all contacts stored in the list
     public void listContact() {
     	
     	if (contacts.isEmpty()) {
-    		System.out.println("No contacts available!");
+    		System.out.println(fError.format("No contacts available!"));
     	} else {
     		for (Contact c : contacts) {
         		System.out.println(c);
@@ -48,7 +55,7 @@ public class ContactManager {
     		
     		if (c.getName().equalsIgnoreCase(name)) { 
     			if (!isValidPhone(newPhoneNumber)) {
-    				System.out.println("Error: Enter a 10 digit phone number");
+    				System.out.println(fError.format("Error: Enter a 10 digit phone number"));
     				return;
     			}
     			
@@ -56,11 +63,11 @@ public class ContactManager {
     			c.setPhoneNumber(newPhoneNumber);
     			c.setEmail(newEmail);
     			c.setCategories(newCategories);
-    			System.out.println("Contact Update Successful!");
+    			System.out.println(fSucess.format("Contact Update Successful!"));
     			return;
     		}
     	}
-    	System.out.println("Contact not found.");
+    	System.out.println(fError.format("Contact not found."));
     }
 
     // Retrieves a contact by name
@@ -90,11 +97,11 @@ public class ContactManager {
     			iterator.remove();
     			removed = true;
     			
-    			System.out.println("Contact deleted successfully!");
+    			System.out.println(fSucess.format("Contact deleted successfully!"));
     			return;
     		}
     	}
-    	System.out.println("contact not found");
+    	System.out.println(fError.format("contact not found"));
     }
     
     // Searches for contacts by name, email, or phone number
@@ -111,14 +118,14 @@ public class ContactManager {
             }
         }
         if (!found) {
-        	System.out.println("No matching contacts found.");
+        	System.out.println(fError.format("No matching contacts found."));
         }
     }
 
     // Sorts contacts by name in ascending order
 	public void sortByName() {
 		if (contacts.isEmpty()) {
-			System.out.println("Contact list empty!");
+			System.out.println(fSucess.format("Contact list empty!"));
 			return;
 		}
 		// Create a TreeSet with our custom comparator.
@@ -130,7 +137,7 @@ public class ContactManager {
 		
 		contacts.clear();
 		contacts.addAll(sortedContacts);
-		System.out.println("Contacts sorted by name.");
+		System.out.println(fSucess.format("Contacts sorted by name."));
 	}
 	
 	// Groups contacts by their assigned categories.
@@ -168,9 +175,9 @@ public class ContactManager {
 				sb.append(String.join(";", c.getCategories())).append("\n");
 			}
 			writer.write(sb.toString());
-			System.out.println("Contacts exported successfully to " + exportPath);
+			System.out.println(fSucess.format("Contacts exported successfully to ") + exportPath);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: Unable to export contacts. " + e.getMessage());
+			System.out.println(fError.format("Error: Unable to export contacts. ") + e.getMessage());
 		}
 	}
 	
@@ -188,9 +195,9 @@ public class ContactManager {
 				List<String> categories = Arrays.asList(parts[3].split(";"));
 				contacts.add(new Contact(name, phoneNumber, email, categories));
 			}
-			System.out.println("Contacts imported successfully from " + importPath);
+			System.out.println(fSucess.format("Contacts imported successfully from ") + importPath);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error: Unable to import contacts. " + e.getMessage());
+			System.out.println(fError.format("Error: Unable to import contacts. ")+ e.getMessage());
 		}
 	}
 }
